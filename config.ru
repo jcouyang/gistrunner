@@ -1,18 +1,20 @@
 require 'rack'
 require 'json'
 require 'net/http'
+require 'sandbox'
+
 app = proc do |env|
   req = Rack::Request.new(env)
-  path = req.path  
+  path = req.path
   gist = Net::HTTP.get(URI("https://gist.githubusercontent.com#{path}/raw"))
   response = {}
   begin
-    response[:result] = eval(gist)
+    Sandbox.play do |path|
+      response[:result] = eval(gist)
+    end
     response[:error] = false
   rescue SyntaxError => se
     response[:result] = se.to_s
-    response[:error] = true
-  ensure
     response[:error] = true
   end
   [
