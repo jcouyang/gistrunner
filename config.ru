@@ -1,18 +1,24 @@
 require 'rack'
 require 'json'
 require 'net/http'
-require 'sandbox'
+require 'ruby_cop'
 
 app = proc do |env|
   req = Rack::Request.new(env)
   path = req.path
   gist = Net::HTTP.get(URI("https://gist.githubusercontent.com#{path}/raw"))
   response = {}
+  policy = RubyCop::Policy.new
   begin
-    Sandbox.play do |path|
+    ast = RubyCop::NodeBuilder.build(gist)
+    if ast.accept(policy)
       response[:result] = eval(gist)
+      response[:error] = false
+    else
+      response[:result] = 'INVALID METHOD FOUND'
+      response[:error] = true
     end
-    response[:error] = false
+
   rescue SyntaxError => se
     response[:result] = se.to_s
     response[:error] = true

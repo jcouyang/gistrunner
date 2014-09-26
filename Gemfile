@@ -2,6 +2,6 @@
 source "https://rubygems.org"
 gem "thin"
 gem "rack"
-gem "sandbox"
+gem "ruby_cop"
 gem "guard"
 gem "guard-pow"
