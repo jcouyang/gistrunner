@@ -1,7 +1,7 @@
 require 'rack'
 require 'json'
 require 'net/http'
-require 'ruby_cop'
+require_relative 'lib/ruby_cop'
 
 app = proc do |env|
   req = Rack::Request.new(env)
@@ -15,7 +15,7 @@ app = proc do |env|
       response[:result] = eval(gist)
       response[:error] = false
     else
-      response[:result] = 'INVALID METHOD FOUND'
+      response[:result] = 'YOUR CODE NOT SAFE'
       response[:error] = true
     end
 
@@ -26,7 +26,7 @@ app = proc do |env|
   [
     200,          # Status code
     {             # Response headers
-      'Content-Type' => 'text/json',
+      'Content-Type' => 'application/json',
     },
     [response.to_json]   # Response body
   ]
