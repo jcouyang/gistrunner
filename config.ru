@@ -1,8 +1,9 @@
 require 'rack'
+require 'rack/contrib'
 require 'json'
 require 'net/http'
 require_relative 'lib/ruby_cop'
-
+use Rack::JSONP
 app = proc do |env|
   req = Rack::Request.new(env)
   path = req.path
@@ -11,14 +12,14 @@ app = proc do |env|
   policy = RubyCop::Policy.new
   begin
     ast = RubyCop::NodeBuilder.build(gist)
+    DATA = JSON.parse(req.POST)
     if ast.accept(policy)
       response[:result] = eval(gist)
       response[:error] = false
     else
-      response[:result] = 'YOUR CODE NOT SAFE'
+      response[:result] = 'UNSAFE CODE!!'
       response[:error] = true
     end
-
   rescue SyntaxError => se
     response[:result] = se.to_s
     response[:error] = true
