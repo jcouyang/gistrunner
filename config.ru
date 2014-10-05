@@ -12,7 +12,7 @@ app = proc do |env|
   policy = RubyCop::Policy.new
   begin
     ast = RubyCop::NodeBuilder.build(gist)
-    DATA = JSON.parse(req.POST)
+    DATA = req.POST
     if ast.accept(policy)
       response[:result] = eval(gist)
       response[:error] = false

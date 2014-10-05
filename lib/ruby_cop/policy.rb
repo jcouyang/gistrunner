@@ -107,7 +107,6 @@ module RubyCop
     ].to_set.freeze
 
     def visit_Call(node)
-      require 'pry';binding.pry
       !CALL_BLACKLIST.include?(node.identifier.token.to_s) && [node.target, node.arguments, node.block].compact.all? { |e| visit(e) }
     end
 
