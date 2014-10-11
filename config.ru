@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'rack'
 require 'rack/contrib'
 require 'json'
@@ -12,7 +13,7 @@ app = proc do |env|
   policy = RubyCop::Policy.new
   begin
     ast = RubyCop::NodeBuilder.build(gist)
-    DATA = req.POST
+    post = JSON.parse(req.body.read)
     if ast.accept(policy)
       response[:result] = eval(gist)
       response[:error] = false
