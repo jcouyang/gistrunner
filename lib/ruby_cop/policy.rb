@@ -175,7 +175,6 @@ module RubyCop
     end
 
     def visit_Identifier(node)
-      require 'pry';binding.pry
       !CALL_BLACKLIST.include?(node.token)
     end
 
