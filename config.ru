@@ -18,10 +18,10 @@ app = proc do |env|
     ast = RubyCop::NodeBuilder.build(gist)
     post = JSON.parse(req.body.read) unless req.body.read.empty?
     if ast.accept(policy)
-      status = Timeout::timeout(20) {
+      status = Timeout::timeout(15) {
         response[:result] = eval(gist)
       }
-      response[:error]=true if status
+      end
     else
       response[:result] = 'UNSAFE CODE!!'
       response[:error] = true
