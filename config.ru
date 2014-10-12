@@ -21,7 +21,6 @@ app = proc do |env|
       status = Timeout::timeout(15) {
         response[:result] = eval(gist)
       }
-      end
     else
       response[:result] = 'UNSAFE CODE!!'
       response[:error] = true
