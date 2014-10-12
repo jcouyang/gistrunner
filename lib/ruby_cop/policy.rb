@@ -86,7 +86,6 @@ module RubyCop
       loop
       method
       module_eval
-      open
       public_send
       readline
       readlines
@@ -289,7 +288,7 @@ module RubyCop
     end
 
     def visit_Until(node)
-      false # never allowed
+      true # never allowed
     end
     alias_method :visit_UntilMod, :visit_Until
 
@@ -298,7 +297,7 @@ module RubyCop
     end
 
     def visit_While(node)
-      false # never allowed
+      true # never allowed
     end
     alias_method :visit_WhileMod, :visit_While
 
@@ -329,7 +328,6 @@ module RubyCop
       Object
       ObjectSpace
       OpenSSL
-      OpenURI
       PLATFORM
       Proc
       Process

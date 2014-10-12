@@ -1,10 +1,12 @@
 # encoding: utf-8
 require 'rack'
+require 'timeout'
 require 'rack/contrib'
 require 'json'
 require 'net/http'
 require_relative 'lib/ruby_cop'
 use Rack::JSONP
+
 app = proc do |env|
   req = Rack::Request.new(env)
   path = req.path
@@ -12,17 +14,23 @@ app = proc do |env|
   response = {}
   policy = RubyCop::Policy.new
   begin
+    response[:error] = false
     ast = RubyCop::NodeBuilder.build(gist)
-    post = JSON.parse(req.body.read)
+    post = JSON.parse(req.body.read) unless req.body.read.empty?
     if ast.accept(policy)
-      response[:result] = eval(gist)
-      response[:error] = false
+      status = Timeout::timeout(20) {
+        response[:result] = eval(gist)
+      }
+      response[:error]=true if status
     else
       response[:result] = 'UNSAFE CODE!!'
       response[:error] = true
     end
   rescue SyntaxError => se
     response[:result] = se.to_s
+    response[:error] = true
+  rescue RuntimeError => e
+    response[:result] = e.to_s
     response[:error] = true
   end
   [
