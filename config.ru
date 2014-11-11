@@ -3,14 +3,15 @@ require 'rack'
 require 'timeout'
 require 'rack/contrib'
 require 'json'
-require 'net/http'
+require 'open-uri'
 require_relative 'lib/ruby_cop'
+require 'pry'
 use Rack::JSONP
 
 app = proc do |env|
   req = Rack::Request.new(env)
   path = req.path
-  gist = Net::HTTP.get(URI("https://gist.githubusercontent.com#{path}/raw"))
+  gist = open("https://gist.githubusercontent.com#{path}/raw").read.force_encoding(::Encoding::UTF_8)
   response = {}
   policy = RubyCop::Policy.new
   begin
