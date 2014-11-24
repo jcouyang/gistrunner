@@ -26,10 +26,10 @@ app = proc do |env|
       response[:result] = 'UNSAFE CODE!!'
       response[:error] = true
     end
-  rescue SyntaxError => se
+  rescue ScriptError => se
     response[:result] = se.to_s
     response[:error] = true
-  rescue RuntimeError => e
+  rescue StandardError => e
     response[:result] = e.to_s
     response[:error] = true
   end
