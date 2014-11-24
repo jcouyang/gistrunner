@@ -8,13 +8,15 @@ require_relative 'lib/ruby_cop'
 require 'pry'
 use Rack::JSONP
 
+require 'newrelic_rpm'
+
 app = proc do |env|
   req = Rack::Request.new(env)
   path = req.path
-  gist = open("https://gist.githubusercontent.com#{path}/raw").read.force_encoding(::Encoding::UTF_8)
-  response = {}
-  policy = RubyCop::Policy.new
   begin
+    response = {}
+    gist = open("https://gist.githubusercontent.com#{path}/raw").read.force_encoding(::Encoding::UTF_8)
+    policy = RubyCop::Policy.new
     response[:error] = false
     ast = RubyCop::NodeBuilder.build(gist)
     params = req.params
