@@ -6,6 +6,7 @@ require 'json'
 require 'open-uri'
 require_relative 'lib/ruby_cop'
 require 'pry'
+require 'rack/cors'
 use Rack::JSONP
 use Rack::Cors do
   allow do
