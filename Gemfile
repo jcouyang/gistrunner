@@ -9,3 +9,4 @@ gem "pry"
 gem "nokogiri"
 gem "hoosegow"
 gem "newrelic_rpm"
+gem 'rack-cors', :require => 'rack/cors'
