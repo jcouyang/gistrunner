@@ -41,13 +41,24 @@ app = proc do |env|
     response[:result] = e.to_s
     response[:error] = true
   end
-  [
-    200,          # Status code
-    {             # Response headers
-      'Content-Type' => response[:content_type]||'application/json'
-    },
-    [response.to_json]   # Response body
-  ]
+  if response[:result][:content_type]
+    [
+      response[:error]?500 : 200,          # Status code
+      {             # Response headers
+        'Content-Type' => response[:result][:content_type]
+      },
+      [response[:result][:body]]   # Response body
+    ]
+  else
+    [
+      200,          # Status code
+      {             # Response headers
+        'Content-Type' => 'application/json'
+      },
+      [response.to_json]   # Response body
+    ]
+  end
+
 end
 
 use Rack::CommonLogger
