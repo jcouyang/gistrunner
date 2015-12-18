@@ -7,7 +7,6 @@ require 'open-uri'
 require_relative 'lib/ruby_cop'
 require 'pry'
 require 'rack/cors'
-use Rack::JSONP
 use Rack::Cors do
   allow do
     origins '*'
@@ -45,7 +44,7 @@ app = proc do |env|
   [
     200,          # Status code
     {             # Response headers
-      'Content-Type' => 'application/json',
+      'Content-Type' => response[:content_type]||'application/json'
     },
     [response.to_json]   # Response body
   ]
