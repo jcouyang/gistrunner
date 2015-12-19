@@ -21,7 +21,7 @@ app = proc do |env|
   path = req.path
   begin
     response = {}
-    gist = open("https://gist.githubusercontent.com#{path}/raw").read.force_encoding(::Encoding::UTF_8)
+    gist = open("https://gist.githubusercontent.com#{path.gsub(/\..+$/,'')}/raw").read.force_encoding(::Encoding::UTF_8)
     policy = RubyCop::Policy.new
     response[:error] = false
     ast = RubyCop::NodeBuilder.build(gist)
@@ -35,13 +35,13 @@ app = proc do |env|
       response[:error] = true
     end
   rescue ScriptError => se
-    response[:result] = se.to_s
+    response[:result] = {errorMsg: se.to_s}
     response[:error] = true
   rescue StandardError => e
-    response[:result] = e.to_s
+    response[:result] = {errorMsg: e.to_s}
     response[:error] = true
   end
-  if response[:result][:content_type]
+  if response[:result].has_key? :content_type
     [
       response[:error]?500 : 200,          # Status code
       {             # Response headers
