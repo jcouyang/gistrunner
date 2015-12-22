@@ -41,7 +41,7 @@ app = proc do |env|
     response[:result] = {errorMsg: e.to_s}
     response[:error] = true
   end
-  if response[:result].has_key? :content_type
+  if response[:result].is_a? Hash && response[:result].has_key? :content_type
     [
       response[:error]?500 : 200,          # Status code
       {             # Response headers
