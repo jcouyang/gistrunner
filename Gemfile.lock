@@ -3,12 +3,10 @@ GEM
   specs:
     archive-tar-minitar (0.5.2)
     coderay (1.1.0)
-    daemons (1.1.9)
     docker-api (1.13.7)
       archive-tar-minitar
       excon (>= 0.38.0)
       json
-    eventmachine (1.0.3)
     excon (0.45.4)
     ffi (1.9.10)
     formatador (0.2.5)
@@ -57,10 +55,6 @@ GEM
       ffi (>= 0.5.0)
     shellany (0.0.1)
     slop (3.6.0)
-    thin (1.6.2)
-      daemons (>= 1.0.9)
-      eventmachine (>= 1.0.0)
-      rack (>= 1.0.0)
     thor (0.19.1)
     yajl-ruby (1.2.1)
 
@@ -76,7 +70,6 @@ DEPENDENCIES
   pry
   rack
   rack-contrib
-  thin
   rack-cors
 
 BUNDLED WITH
