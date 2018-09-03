@@ -4,7 +4,7 @@
 # overhead.  For more information, visit www.newrelic.com.
 #
 # Generated October 21, 2015
-# 
+#
 # This configuration file is custom generated for app29962209@heroku.com_1
 #
 # For full documentation of agent configuration options, please refer to
@@ -12,7 +12,7 @@
 
 common: &default_settings
   # Required license key associated with your New Relic account.
-  license_key: a4b3f5644fe2e32fd5fb95aa5f494ab90b3d97a5
+  license_key: NEWRELIC_KEY
 
   # Your application name. Renaming here affects where data displays in New
   # Relic.  For more details, see https://docs.newrelic.com/docs/apm/new-relic-apm/maintenance/renaming-applications
