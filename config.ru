@@ -34,29 +34,29 @@ app = proc do |env|
       response[:result] = 'UNSAFE CODE!!'
       response[:error] = true
     end
-      if response[:result].is_a?(Hash) && response[:result].has_key?(:content_type)
-        [
-          response[:error]?500 : 200,          # Status code
-          {             # Response headers
-            'Content-Type' => response[:result][:content_type]
-          },
-          [response[:result][:body]]   # Response body
-        ]
-      else
-        [
-          200,          # Status code
-          {             # Response headers
-            'Content-Type' => 'application/json'
-          },
-          [response.to_json]   # Response body
-        ]
-      end
   rescue ScriptError => se
     response[:result] = {errorMsg: se.to_s}
     response[:error] = true
   rescue StandardError => e
     response[:result] = {errorMsg: e.to_s}
     response[:error] = true
+  end
+  if response[:result].is_a?(Hash) && response[:result].has_key?(:content_type)
+    [
+      response[:error]?500 : 200,          # Status code
+      {             # Response headers
+        'Content-Type' => response[:result][:content_type]
+      },
+      [response[:result][:body]]   # Response body
+    ]
+  else
+    [
+      200,          # Status code
+      {             # Response headers
+        'Content-Type' => 'application/json'
+      },
+      [response.to_json]   # Response body
+    ]
   end
 end
 
