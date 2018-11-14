@@ -28,7 +28,7 @@ app = proc do |env|
     params = req.params
     if ast.accept(policy)
       status = Timeout::timeout(15) {
-        response[:result] = lambda { binding.eval(gist) }.call
+        response[:result] = lambda { req.instance_eval(gist) }.call
       }
     else
       response[:result] = 'UNSAFE CODE!!'
