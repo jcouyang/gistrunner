@@ -7,6 +7,9 @@ require 'open-uri'
 require_relative 'lib/ruby_cop'
 require 'pry'
 require 'rack/cors'
+
+$stdout.sync = true
+
 use Rack::Cors do
   allow do
     origins '*'
