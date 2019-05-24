@@ -26,6 +26,7 @@ app = proc do |env|
     response[:error] = false
     ast = RubyCop::NodeBuilder.build(gist)
     params = req.params
+    body = JSON.parse req.body.read if req.post?
     if ast.accept(policy)
       status = Timeout::timeout(15) {
         response[:result] = lambda { req.instance_eval(gist) }.call
