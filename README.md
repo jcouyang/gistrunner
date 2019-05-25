@@ -19,6 +19,20 @@ then you will got an API
 ## Global Variables
 
 ### `req`
+`req` is instance of `Rack::Request`
+so it basically contains everything of a http request
+
+But you probably just need `req` to get some headers
+
+Headers in `Rack::Request` preffixed with `HTTP_` and `-` to `_`
+
+for instance you want to get a Header with name `X-API-KEY`
+```
+req.get_header('HTTP_X_API_KEY')
+```
+
 ### `params`
+`params` contains `form` and `query`
 ### `body`
-### `HTTP_*`
+if `Content-Type` is `application/json`, body is the json body
+
