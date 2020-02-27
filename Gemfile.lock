@@ -11,7 +11,7 @@ GEM
       excon (>= 0.47.0)
       multi_json
     eventmachine (1.2.7)
-    excon (0.64.0)
+    excon (0.71.0)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
     ffi (1.11.1)
